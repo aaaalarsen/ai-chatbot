@@ -7,7 +7,8 @@
       "Bash(python3:*)",
       "Bash(sed:*)",
       "Bash(rg:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   }
