@@ -75,7 +75,7 @@ export default function ManagementPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading management interface...</p>
@@ -86,7 +86,7 @@ export default function ManagementPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="text-center">
           <div className="text-red-500 text-xl mb-4">Error</div>
           <p className="text-gray-600 mb-4">{error}</p>
@@ -103,7 +103,7 @@ export default function ManagementPage() {
 
   if (!flowData) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="text-center">
           <p className="text-gray-600">No flow data available</p>
         </div>
@@ -116,17 +116,17 @@ export default function ManagementPage() {
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-4 sm:h-16 gap-4 sm:gap-0">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
                 コンテンツ管理システム
               </h1>
-              <span className="ml-4 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+              <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
                 {flowData.storeName}
               </span>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4">
               {/* Language Selector */}
               <select
                 value={language}
@@ -138,8 +138,8 @@ export default function ManagementPage() {
               </select>
 
               {/* File Operations */}
-              <div className="flex gap-2">
-                <label className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded cursor-pointer">
+              <div className="flex flex-wrap gap-2">
+                <label className="px-3 sm:px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded cursor-pointer text-sm whitespace-nowrap">
                   JSONアップロード
                   <input
                     type="file"
@@ -150,7 +150,7 @@ export default function ManagementPage() {
                 </label>
                 <button
                   onClick={downloadFlowData}
-                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded"
+                  className="px-3 sm:px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded text-sm whitespace-nowrap"
                 >
                   JSONダウンロード
                 </button>
@@ -159,7 +159,7 @@ export default function ManagementPage() {
               {/* Back to App */}
               <Link
                 href="/"
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+                className="px-3 sm:px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm whitespace-nowrap"
               >
                 アプリに戻る
               </Link>
@@ -169,9 +169,9 @@ export default function ManagementPage() {
       </header>
 
       {/* Navigation Tabs */}
-      <nav className="bg-white border-b">
+      <nav className="bg-white border-b overflow-x-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex space-x-8">
+          <div className="flex space-x-4 sm:space-x-8 min-w-max">
             {[
               { id: 'preview', label: 'コンテンツプレビュー', icon: '👁️' },
               { id: 'edit', label: 'コンテンツ編集', icon: '✏️' },
@@ -180,7 +180,7 @@ export default function ManagementPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as ManagementTab)}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap ${
                   activeTab === tab.id
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -195,7 +195,7 @@ export default function ManagementPage() {
       </nav>
 
       {/* Content Area */}
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <main className="max-w-7xl mx-auto py-4 px-4 sm:py-6 sm:px-6 lg:px-8">
         {activeTab === 'preview' && (
           <ContentPreview
             flowData={flowData}

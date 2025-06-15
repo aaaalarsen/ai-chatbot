@@ -1345,16 +1345,13 @@
                       "nodecontent": 0,
                       "isBanker": false
                     }
-                    }
-                },
-                "nodecontent": 0,
-                "isBanker": false
+                ]
               }
             ]
           }
         }
       ]
     }
-  },
+  }],
   "wcmanager": {}
 }

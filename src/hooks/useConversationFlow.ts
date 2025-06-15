@@ -262,12 +262,24 @@ export function useConversationFlow(
   useEffect(() => {
     if (!currentNode) return
     
-    // Add bot message for current node
+    // Add bot message for current node, but avoid duplicates by checking both content and node ID
     if (currentNode.type === 'message' || currentNode.type === 'choice') {
-      // Don't add duplicate messages
       const lastMessage = chatState.history[chatState.history.length - 1]
-      if (!lastMessage || lastMessage.content !== currentNode.content) {
+      const isDuplicate = lastMessage && 
+        (lastMessage.content === currentNode.content || 
+         (lastMessage as any).nodeId === currentNode.id)
+      
+      if (!isDuplicate) {
         addBotMessage(currentNode.content)
+        // Mark the message with nodeId to prevent duplicates
+        setChatState(prevState => {
+          const updatedHistory = [...prevState.history]
+          const lastMsg = updatedHistory[updatedHistory.length - 1]
+          if (lastMsg) {
+            (lastMsg as any).nodeId = currentNode.id
+          }
+          return { ...prevState, history: updatedHistory }
+        })
       }
     }
     
@@ -282,7 +294,7 @@ export function useConversationFlow(
       
       return () => clearTimeout(timer)
     }
-  }, [chatState.currentNode, chatState.history, currentNode, addBotMessage])
+  }, [chatState.currentNode, currentNode, addBotMessage])
   
   return {
     chatState,

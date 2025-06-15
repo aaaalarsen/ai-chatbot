@@ -71,9 +71,16 @@ export function useVoice(options: UseVoiceOptions): UseVoiceReturn {
   useEffect(() => {
     const initializeServices = async () => {
       try {
-        // Initialize recognition service
-        recognitionServiceRef.current = createVoiceRecognitionService()
-        await recognitionServiceRef.current.initialize(language)
+        // Initialize recognition service (try Vosk first, fallback to Web Speech API)
+        recognitionServiceRef.current = createVoiceRecognitionService(true)
+        try {
+          await recognitionServiceRef.current.initialize(language)
+        } catch (voskError) {
+          console.warn('Vosk initialization failed, falling back to Web Speech API:', voskError)
+          // Fallback to Web Speech API
+          recognitionServiceRef.current = createVoiceRecognitionService(false)
+          await recognitionServiceRef.current.initialize(language)
+        }
 
         // Initialize output service (audio file based)
         outputServiceRef.current = createVoiceOutputService()

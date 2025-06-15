@@ -17,6 +17,7 @@ interface InputFieldProps {
   onStopRecording?: () => void
   voiceError?: string | null
   isVoiceSupported?: boolean
+  onUserInteraction?: () => void
 }
 
 export default function InputField({ 
@@ -31,7 +32,8 @@ export default function InputField({
   onStartRecording,
   onStopRecording,
   voiceError,
-  isVoiceSupported = false
+  isVoiceSupported = false,
+  onUserInteraction
 }: InputFieldProps) {
   const [value, setValue] = useState('')
   const [error, setError] = useState('')
@@ -42,6 +44,8 @@ export default function InputField({
   }
 
   const handleSubmit = () => {
+    onUserInteraction?.() // Stop voice when submitting
+    
     if (!value.trim()) {
       setError(language === 'ja' ? '入力してください' : 'Please enter a value')
       return
@@ -58,6 +62,12 @@ export default function InputField({
     
     setError('')
     onSubmit(value)
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value)
+    setError('')
+    onUserInteraction?.() // Stop voice when user starts typing
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -93,7 +103,7 @@ export default function InputField({
         <input
           type={isAmountField ? 'number' : 'text'}
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={handleInputChange}
           onKeyPress={handleKeyPress}
           placeholder={placeholder}
           className={`

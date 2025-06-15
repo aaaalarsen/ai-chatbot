@@ -26,26 +26,63 @@ body {
 }
 
 /* カスタムアニメーション */
-@keyframes slideInUp {
-  from {
+@keyframes fadeInScale {
+  0% {
     opacity: 0;
-    transform: translateY(30px);
+    transform: scale(0.9);
   }
-  to {
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-@keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
+  50% {
+    transform: translateY(-10px);
   }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0,0,0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -30px, 0);
+  }
+  70% {
+    transform: translate3d(0, -15px, 0);
+  }
+  90% {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+/* アニメーションクラス */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-fadeInScale {
+  animation: fadeInScale 0.8s ease-out;
+}
+
+.animate-slideInUp {
+  animation: slideInUp 0.5s ease-out;
 }
 
 @keyframes pulse {
@@ -77,15 +114,6 @@ body {
   animation: shimmer 2s infinite;
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
 @keyframes glow {
   0%, 100% {
     box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
@@ -115,10 +143,6 @@ body {
   }
 }
 
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
 .animate-glow {
   animation: glow 2s ease-in-out infinite;
 }
@@ -144,4 +168,39 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(to bottom, #1d4ed8, #1e40af);
+}
+
+/* Responsive Design Utilities */
+@media (max-width: 640px) {
+  .mobile-padding {
+    padding: 1rem;
+  }
+  
+  .mobile-text-sm {
+    font-size: 0.875rem;
+  }
+  
+  .mobile-text-base {
+    font-size: 1rem;
+  }
+  
+  .mobile-text-lg {
+    font-size: 1.125rem;
+  }
+  
+  .mobile-gap-2 {
+    gap: 0.5rem;
+  }
+  
+  .mobile-gap-3 {
+    gap: 0.75rem;
+  }
+}
+
+/* Touch-friendly buttons on mobile */
+@media (max-width: 768px) {
+  .touch-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }

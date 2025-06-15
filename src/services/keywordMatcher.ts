@@ -136,23 +136,85 @@ export class KeywordMatcher {
       if (input.includes(normalizedKeyword)) {
         matchedKeywords.push(keyword)
         
-        // キーワードの長さと一致度に基づくスコア
-        const keywordLength = normalizedKeyword.length
-        
-        if (input === normalizedKeyword) {
-          totalScore += 10 // 完全一致
-        } else if (keywordLength >= 3) {
-          totalScore += 7 // 長いキーワードの部分一致
+        // 数字の特別処理（高い優先度）
+        if (this.isNumberKeyword(keyword)) {
+          if (input === normalizedKeyword) {
+            totalScore += 15 // 数字の完全一致は非常に高スコア
+          } else {
+            totalScore += 12 // 数字の部分一致も高スコア
+          }
         } else {
-          totalScore += 3 // 短いキーワードの部分一致
+          // 通常のキーワード処理
+          const keywordLength = normalizedKeyword.length
+          
+          if (input === normalizedKeyword) {
+            totalScore += 10 // 完全一致
+          } else if (keywordLength >= 3) {
+            totalScore += 7 // 長いキーワードの部分一致
+          } else {
+            totalScore += 3 // 短いキーワードの部分一致
+          }
+        }
+      }
+      
+      // 音声認識特有の誤認識に対する処理
+      const voiceVariations = this.getVoiceVariations(normalizedKeyword)
+      for (const variation of voiceVariations) {
+        if (input.includes(variation) && !matchedKeywords.includes(keyword)) {
+          matchedKeywords.push(keyword)
+          totalScore += this.isNumberKeyword(keyword) ? 10 : 5 // 音声誤認識の場合は少し低めのスコア
         }
       }
     }
     
-    // 最大10点で正規化
-    const confidence = Math.min(totalScore / 10, 1.0)
+    // より柔軟なスコア正規化（数字がある場合は15点満点）
+    const maxScore = keywords.some(k => this.isNumberKeyword(k)) ? 15 : 10
+    const confidence = Math.min(totalScore / maxScore, 1.0)
     
     return { confidence, matchedKeywords }
+  }
+  
+  private isNumberKeyword(keyword: string): boolean {
+    const numberPattern = /^[0-9一二三四五六七八九十１２３４５６７８９０]+(番|ばん)?$/
+    return numberPattern.test(this.normalizeText(keyword))
+  }
+  
+  private getVoiceVariations(keyword: string): string[] {
+    const variations: string[] = []
+    
+    // 数字の音声認識バリエーション
+    const numberMappings: Record<string, string[]> = {
+      '1': ['いち', 'ひとつ', 'わん'],
+      '2': ['に', 'ふたつ', 'つー'],
+      '3': ['さん', 'みっつ', 'すりー'],
+      '4': ['よん', 'し', 'よっつ', 'ふぉー'],
+      '5': ['ご', 'いつつ', 'ふぁいぶ'],
+      '6': ['ろく', 'むっつ', 'しっくす'],
+      '7': ['なな', 'しち', 'ななつ', 'せぶん'],
+      '8': ['はち', 'やっつ', 'えいと'],
+      '9': ['きゅう', 'く', 'ここのつ', 'ないん'],
+    }
+    
+    for (const [number, variations_list] of Object.entries(numberMappings)) {
+      if (keyword === number) {
+        variations.push(...variations_list)
+      }
+    }
+    
+    // よくある音声認識の誤認識パターン
+    const commonMisrecognitions: Record<string, string[]> = {
+      'よにゅう': ['にゅうきん', 'よきん'],
+      'ひきだし': ['ひきだ', 'だし'],
+      'ふりこみ': ['ふりく', 'りこみ'],
+      'みずほ': ['みず', 'ほう'],
+      'mitsubishi': ['みつび', 'つびし'],
+    }
+    
+    if (commonMisrecognitions[keyword]) {
+      variations.push(...commonMisrecognitions[keyword])
+    }
+    
+    return variations
   }
   
   private fuzzyMatch(str1: string, str2: string): number {

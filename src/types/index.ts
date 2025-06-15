@@ -4,7 +4,7 @@
 export type Language = 'ja' | 'en'
 
 // ノードタイプ
-export type NodeType = 'message' | 'choice' | 'input' | 'confirmation'
+export type NodeType = 'message' | 'choice' | 'input' | 'confirmation' | 'qr_display'
 
 // チャットノード
 export interface ChatNode {

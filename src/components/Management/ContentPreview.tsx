@@ -232,14 +232,14 @@ export default function ContentPreview({
     return (
       <div
         key={nodeId}
-        className={`border rounded-lg p-4 transition-all ${
+        className={`border rounded-lg p-3 sm:p-4 transition-all ${
           isSelected ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
         }`}
       >
-        <div className="flex items-start justify-between mb-3">
-          <div>
-            <h3 className="font-semibold text-gray-900">{nodeId}</h3>
-            <span className={`text-xs px-2 py-1 rounded ${
+        <div className="flex items-start justify-between mb-3 gap-2">
+          <div className="min-w-0 flex-1">
+            <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate">{nodeId}</h3>
+            <span className={`text-xs px-2 py-1 rounded inline-block mt-1 ${
               node.type === 'message' ? 'bg-green-100 text-green-800' :
               node.type === 'choice' ? 'bg-blue-100 text-blue-800' :
               node.type === 'input' ? 'bg-yellow-100 text-yellow-800' :
@@ -249,23 +249,24 @@ export default function ContentPreview({
             </span>
           </div>
           
-          <div className="flex gap-2">
+          <div className="flex gap-1 sm:gap-2 flex-shrink-0">
             {/* Play/Stop Button */}
             <button
               onClick={() => isCurrentlyPlaying ? stopAudio() : playAudio(nodeId, node)}
               disabled={previewState.isGenerating}
-              className={`p-2 rounded ${
+              className={`p-1.5 sm:p-2 rounded ${
                 isCurrentlyPlaying
                   ? 'bg-red-100 hover:bg-red-200 text-red-600'
                   : 'bg-green-100 hover:bg-green-200 text-green-600'
               } disabled:opacity-50`}
+              title={isCurrentlyPlaying ? 'Stop' : 'Play'}
             >
               {isCurrentlyPlaying ? (
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
                 </svg>
               ) : (
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z"/>
                 </svg>
               )}
@@ -274,10 +275,10 @@ export default function ContentPreview({
             {/* Edit Button */}
             <button
               onClick={() => onContentUpdate?.(nodeId, node.content)}
-              className="p-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded"
+              className="p-1.5 sm:p-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded"
               title="編集"
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
               </svg>
             </button>
@@ -337,29 +338,29 @@ export default function ContentPreview({
   const allNodes = getCurrentNodes()
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="max-w-6xl mx-auto">
       <div className="mb-6">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-4">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
               コンテンツプレビュー
             </h1>
-            <p className="text-gray-600">
+            <p className="text-gray-600 text-sm sm:text-base">
               {language === 'ja' ? '日本語' : '英語'}コンテンツのプレビューとテスト
             </p>
           </div>
           
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-2 sm:gap-3 w-full sm:w-auto">
             <button
               onClick={() => setShowFlowGraph(!showFlowGraph)}
-              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded"
+              className="px-3 sm:px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded text-sm flex-1 sm:flex-initial"
             >
               {showFlowGraph ? 'フロー非表示' : 'フロー表示'}
             </button>
             <button
               onClick={generateAllAudio}
               disabled={previewState.isGenerating}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded disabled:opacity-50"
+              className="px-3 sm:px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded disabled:opacity-50 text-sm flex-1 sm:flex-initial"
             >
               {previewState.isGenerating ? '生成中...' : '全音声ファイル生成'}
             </button>
@@ -392,10 +393,10 @@ export default function ContentPreview({
         )}
 
         {/* Statistics */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
           {nodeTypes.map(type => (
-            <div key={type} className="bg-white border rounded-lg p-4">
-              <div className="text-2xl font-bold text-gray-900">
+            <div key={type} className="bg-white border rounded-lg p-3 sm:p-4">
+              <div className="text-xl sm:text-2xl font-bold text-gray-900">
                 {getNodesByType(type).length}
               </div>
               <div className="text-sm text-gray-600 capitalize">
@@ -431,11 +432,11 @@ export default function ContentPreview({
         }
 
         return (
-          <div key={type} className="mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+          <div key={type} className="mb-6 sm:mb-8">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
               {typeLabels[type as keyof typeof typeLabels]} ({nodesOfType.length}個)
             </h2>
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-3 sm:gap-4 lg:grid-cols-2">
               {nodesOfType.map(([nodeId, node]) => renderNodeCard(nodeId, node))}
             </div>
           </div>

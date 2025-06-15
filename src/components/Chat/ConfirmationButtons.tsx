@@ -8,6 +8,7 @@ interface ConfirmationButtonsProps {
   isLarge?: boolean
   isHighContrast?: boolean
   suggestion?: string
+  onUserInteraction?: () => void
 }
 
 export default function ConfirmationButtons({ 
@@ -15,8 +16,14 @@ export default function ConfirmationButtons({
   language,
   isLarge = false,
   isHighContrast = false,
-  suggestion
+  suggestion,
+  onUserInteraction
 }: ConfirmationButtonsProps) {
+  
+  const handleConfirm = (isConfirmed: boolean) => {
+    onUserInteraction?.()
+    onConfirm(isConfirmed)
+  }
   return (
     <div className="flex flex-col gap-3 mt-4">
       {suggestion && (
@@ -37,7 +44,7 @@ export default function ConfirmationButtons({
       
       <div className="flex gap-3">
         <button
-          onClick={() => onConfirm(true)}
+          onClick={() => handleConfirm(true)}
           className={`
             flex-1 px-6 py-4 rounded-xl font-medium transition-all duration-200
             ${isHighContrast
@@ -53,7 +60,7 @@ export default function ConfirmationButtons({
         </button>
         
         <button
-          onClick={() => onConfirm(false)}
+          onClick={() => handleConfirm(false)}
           className={`
             flex-1 px-6 py-4 rounded-xl font-medium transition-all duration-200
             ${isHighContrast

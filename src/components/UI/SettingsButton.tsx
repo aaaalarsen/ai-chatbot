@@ -16,18 +16,19 @@ export default function SettingsButton({
   language 
 }: SettingsButtonProps) {
   return (
-    <div className="fixed top-4 right-4 flex gap-2 z-50">
+    <div className="fixed top-2 left-2 sm:left-4 flex gap-1 sm:gap-2 z-50">
       {/* Text Size Toggle */}
       <button
         onClick={onTextSizeToggle}
         className={`
-          p-3 rounded-full shadow-lg
+          p-2 sm:p-2 rounded-full shadow-lg touch-button
           ${isHighContrast
             ? 'bg-white text-black border-2 border-black hover:bg-gray-100'
             : 'bg-white hover:bg-gray-50 text-gray-800 shadow-md'
           }
           focus:outline-none focus:ring-4 focus:ring-blue-300
           transition-all duration-200
+          ${isLarge ? 'p-2 sm:p-3' : 'p-2'}
         `}
         title={language === 'ja' 
           ? (isLarge ? '文字を小さく' : '文字を大きく')
@@ -35,7 +36,7 @@ export default function SettingsButton({
         }
       >
         <svg 
-          className={`${isLarge ? 'w-6 h-6' : 'w-5 h-5'}`} 
+          className={`${isLarge ? 'w-4 h-4 sm:w-5 sm:h-5' : 'w-3 h-3 sm:w-4 sm:h-4'}`} 
           fill="currentColor" 
           viewBox="0 0 24 24"
         >
@@ -47,13 +48,14 @@ export default function SettingsButton({
       <button
         onClick={onContrastToggle}
         className={`
-          p-3 rounded-full shadow-lg
+          p-2 sm:p-2 rounded-full shadow-lg touch-button
           ${isHighContrast
             ? 'bg-black text-white border-2 border-white hover:bg-gray-800'
             : 'bg-white hover:bg-gray-50 text-gray-800 shadow-md'
           }
           focus:outline-none focus:ring-4 focus:ring-blue-300
           transition-all duration-200
+          ${isLarge ? 'p-2 sm:p-3' : 'p-2'}
         `}
         title={language === 'ja' 
           ? (isHighContrast ? '通常表示' : '高コントラスト')
@@ -61,7 +63,7 @@ export default function SettingsButton({
         }
       >
         <svg 
-          className={`${isLarge ? 'w-6 h-6' : 'w-5 h-5'}`} 
+          className={`${isLarge ? 'w-4 h-4 sm:w-5 sm:h-5' : 'w-3 h-3 sm:w-4 sm:h-4'}`} 
           fill="currentColor" 
           viewBox="0 0 24 24"
         >

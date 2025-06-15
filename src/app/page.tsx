@@ -4,21 +4,28 @@ import { useState } from 'react'
 import { Language } from '@/types'
 import LanguageSelector from '@/components/Language/LanguageSelector'
 import ChatContainer from '@/components/Chat/ChatContainer'
+import StartScreen from '@/components/Chat/StartScreen'
 import SettingsButton from '@/components/UI/SettingsButton'
+
+type AppState = 'start' | 'language' | 'chat'
 
 export default function Home() {
   const [currentLanguage, setCurrentLanguage] = useState<Language>('ja')
-  const [showLanguageSelector, setShowLanguageSelector] = useState(true)
+  const [appState, setAppState] = useState<AppState>('start')
   const [isLarge, setIsLarge] = useState(false)
   const [isHighContrast, setIsHighContrast] = useState(false)
 
+  const handleStartClick = () => {
+    setAppState('language')
+  }
+
   const handleLanguageChange = (language: Language) => {
     setCurrentLanguage(language)
-    setShowLanguageSelector(false)
+    setAppState('chat')
   }
 
   const handleHomeClick = () => {
-    setShowLanguageSelector(true)
+    setAppState('start')
   }
 
   const handleTextSizeToggle = () => {
@@ -29,10 +36,31 @@ export default function Home() {
     setIsHighContrast(!isHighContrast)
   }
 
-
-  if (showLanguageSelector) {
+  // Start Screen (Reception start screen)
+  if (appState === 'start') {
     return (
-      <div className={isHighContrast ? 'bg-white min-h-screen' : ''}>
+      <div className={`flex flex-col h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-blue-900 ${isHighContrast ? 'bg-white' : ''}`}>
+        <SettingsButton
+          onTextSizeToggle={handleTextSizeToggle}
+          onContrastToggle={handleContrastToggle}
+          isLarge={isLarge}
+          isHighContrast={isHighContrast}
+          language={currentLanguage}
+        />
+        <StartScreen
+          language={currentLanguage}
+          onStart={handleStartClick}
+          isLarge={isLarge}
+          isHighContrast={isHighContrast}
+        />
+      </div>
+    )
+  }
+
+  // Language Selection Screen
+  if (appState === 'language') {
+    return (
+      <div className={`${isHighContrast ? 'bg-white min-h-screen' : ''}`}>
         <SettingsButton
           onTextSizeToggle={handleTextSizeToggle}
           onContrastToggle={handleContrastToggle}
@@ -50,8 +78,9 @@ export default function Home() {
     )
   }
 
+  // Chat Screen
   return (
-    <div className={isHighContrast ? 'bg-white min-h-screen' : ''}>
+    <div className={`${isHighContrast ? 'bg-white min-h-screen' : ''}`}>
       <SettingsButton
         onTextSizeToggle={handleTextSizeToggle}
         onContrastToggle={handleContrastToggle}
