@@ -166,7 +166,7 @@ export class VoicevoxService {
 }
 
 // Factory function
-export function createVoicevoxService(defaultSpeaker: number = 3) {
+export function createVoicevoxService() {
   const service = new VoicevoxService(process.env.NEXT_PUBLIC_VOICEVOX_ENGINE_URL || 'http://localhost:50021');
   
   // 非同期で初期化を開始

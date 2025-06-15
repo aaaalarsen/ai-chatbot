@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Language, OptimizedChatFlow, ChatNode, VoicevoxSpeaker } from '@/types'
 import { createOpenAIService } from '@/services/openaiService'
-import { createVoicevoxService, VOICEVOX_SPEAKERS } from '@/services/voicevoxService'
+import { createVoicevoxService } from '@/services/voicevoxService'
 import { createAudioFileDetector, AudioFileInfo } from '@/services/audioFileDetector'
 import SpeakerSelector from './SpeakerSelector'
 import { updateCachedFlow } from '@/utils/realBankingFlowConverter'
@@ -594,7 +594,7 @@ export default function ContentManager({
               }
             }
             
-            onFlowDataUpdate(updatedFlow)
+            onFlowUpdate(updatedFlow)
             
             // グローバルキャッシュも更新
             updateCachedFlow(updatedFlow)

@@ -107,7 +107,7 @@ export default function ChatContainer({
           console.log('Flow data updated, refreshing...')
           setFlowData(latestFlow)
         }
-      } catch (error) {
+      } catch {
         // エラーは無視（ログは既に出力されている）
       }
     }, 5000) // 5秒ごとにチェック
@@ -260,6 +260,7 @@ export default function ChatContainer({
                 message={message}
                 isLarge={isLarge}
                 isHighContrast={isHighContrast}
+                voiceFile={message.type === 'bot' ? currentNode?.voiceFile : undefined}
               />
             ))}
             

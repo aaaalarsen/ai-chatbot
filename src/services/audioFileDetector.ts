@@ -61,7 +61,7 @@ export class AudioFileDetector {
         console.log('API response:', data)
         
         if (data.success && data.files) {
-          return data.files.map((file: any) => ({
+          return data.files.map((file: { name: string }) => ({
             nodeId: this.extractNodeIdFromFilename(file.name),
             speaker: this.extractSpeakerFromFilename(file.name),
             filename: file.name,

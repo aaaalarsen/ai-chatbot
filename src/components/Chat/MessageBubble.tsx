@@ -2,18 +2,20 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { ChatMessage } from '@/types'
-import { IoPlayCircleOutline, IoPauseCircleOutline } from 'react-icons/io5'
+import React from 'react'
 
 interface MessageBubbleProps {
   message: ChatMessage
   isLarge?: boolean
   isHighContrast?: boolean
+  voiceFile?: string
 }
 
 export default function MessageBubble({ 
   message, 
   isLarge = false,
-  isHighContrast = false 
+  isHighContrast = false,
+  voiceFile
 }: MessageBubbleProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [audioExists, setAudioExists] = useState(false)
@@ -21,8 +23,8 @@ export default function MessageBubble({
 
   useEffect(() => {
     // 音声ファイルの存在チェック
-    if (message.voiceFile) {
-      const audioPath = `/audio/ja/${message.voiceFile}.wav`
+    if (voiceFile) {
+      const audioPath = `/audio/ja/${voiceFile}.wav`
       fetch(audioPath)
         .then(response => {
           setAudioExists(response.ok)
@@ -40,7 +42,7 @@ export default function MessageBubble({
         audioRef.current = null
       }
     }
-  }, [message.voiceFile])
+  }, [voiceFile])
 
   const toggleAudio = () => {
     if (!audioRef.current || !audioExists) return

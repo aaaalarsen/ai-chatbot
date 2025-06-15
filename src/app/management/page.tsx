@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { Language, OptimizedChatFlow } from '@/types'
 import { getRealBankingFlowFromConfiguration } from '@/utils/realBankingFlowConverter'
 import ContentManager from '@/components/Management/ContentManager'
@@ -23,8 +24,8 @@ export default function ManagementPage() {
         setIsLoading(true)
         const data = await getRealBankingFlowFromConfiguration()
         setFlowData(data)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load flow data')
+      } catch (error) {
+        setError(error instanceof Error ? error.message : 'Failed to load flow data')
       } finally {
         setIsLoading(false)
       }
@@ -65,7 +66,7 @@ export default function ManagementPage() {
         const content = e.target?.result as string
         const parsedData = JSON.parse(content) as OptimizedChatFlow
         setFlowData(parsedData)
-      } catch (err) {
+      } catch {
         setError('Invalid JSON file format')
       }
     }
@@ -156,12 +157,12 @@ export default function ManagementPage() {
               </div>
 
               {/* Back to App */}
-              <a
+              <Link
                 href="/"
                 className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
               >
                 アプリに戻る
-              </a>
+              </Link>
             </div>
           </div>
         </div>

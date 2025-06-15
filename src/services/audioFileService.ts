@@ -16,7 +16,7 @@ export class WebAudioFileService implements AudioFileService {
   private audioCache: Map<string, HTMLAudioElement> = new Map()
   private currentAudio: HTMLAudioElement | null = null
   private volume: number = 1.0
-  private isPlaying: boolean = false
+  private _isPlaying: boolean = false
 
   constructor() {
     // Initialize audio cache
@@ -40,7 +40,7 @@ export class WebAudioFileService implements AudioFileService {
       for (const audioKey of commonAudioKeys) {
         try {
           await this.preloadAudio(audioKey, language)
-        } catch (error) {
+        } catch {
           // Silent fail for missing audio files
           console.warn(`Failed to preload audio: ${audioKey}_${language}`)
         }
@@ -117,7 +117,7 @@ export class WebAudioFileService implements AudioFileService {
         let resolved = false
 
         const onEnded = () => {
-          this.isPlaying = false
+          this._isPlaying = false
           this.currentAudio = null
           if (!resolved) {
             resolved = true
@@ -127,7 +127,7 @@ export class WebAudioFileService implements AudioFileService {
         }
 
         const onError = () => {
-          this.isPlaying = false
+          this._isPlaying = false
           this.currentAudio = null
           if (!resolved) {
             resolved = true
@@ -154,7 +154,7 @@ export class WebAudioFileService implements AudioFileService {
         }, 30000)
 
         this.currentAudio = audio
-        this.isPlaying = true
+        this._isPlaying = true
         
         audio.play().catch(onError)
       })
@@ -169,7 +169,7 @@ export class WebAudioFileService implements AudioFileService {
       this.currentAudio.currentTime = 0
       this.currentAudio = null
     }
-    this.isPlaying = false
+    this._isPlaying = false
   }
 
   isAudioAvailable(audioKey: string, language: Language): boolean {
@@ -192,7 +192,7 @@ export class WebAudioFileService implements AudioFileService {
   }
 
   isPlaying(): boolean {
-    return this.isPlaying
+    return this._isPlaying
   }
 
   // Utility method to get all available audio keys for a language
@@ -214,7 +214,7 @@ export class WebAudioFileService implements AudioFileService {
     })
     this.audioCache.clear()
     this.currentAudio = null
-    this.isPlaying = false
+    this._isPlaying = false
   }
 }
 

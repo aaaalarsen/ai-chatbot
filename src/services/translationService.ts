@@ -73,7 +73,7 @@ export class TranslationService {
 export class ApiKeyManager {
   private static readonly STORAGE_KEY = 'openai_api_key'
   
-  static saveApiKey(apiKey: string): void {
+  static saveApiKey(): void {
     console.warn('ApiKeyManager is deprecated')
   }
   

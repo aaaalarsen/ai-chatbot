@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { VoicevoxSpeaker, VOICEVOX_SPEAKERS } from '@/services/voicevoxService'
+import { VoicevoxSpeaker } from '@/types'
+import { VOICEVOX_SPEAKERS } from '@/services/voicevoxService'
 
 interface SpeakerSelectorProps {
   selectedSpeaker: number

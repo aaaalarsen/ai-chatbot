@@ -244,26 +244,20 @@ export class ConfigurationParser {
       const contentResult = await translationService.translateText(
         node.content,
         fromLang,
-        toLang,
-        '銀行ATMの案内'
+        toLang
       )
       
-      if ('translatedText' in contentResult) {
-        translatedNode.content = contentResult.translatedText
-      }
+      translatedNode.content = contentResult
       
       // ラベルを翻訳
       if (node.label) {
         const labelResult = await translationService.translateText(
           node.label,
           fromLang,
-          toLang,
-          '銀行ATMのフィールドラベル'
+          toLang
         )
         
-        if ('translatedText' in labelResult) {
-          translatedNode.label = labelResult.translatedText
-        }
+        translatedNode.label = labelResult
       }
       
       // 選択肢を翻訳
@@ -300,13 +294,10 @@ export class ConfigurationParser {
       const textResult = await translationService.translateText(
         choice.text,
         fromLang,
-        toLang,
-        '銀行ATMの選択肢'
+        toLang
       )
       
-      if ('translatedText' in textResult) {
-        translatedChoice.text = textResult.translatedText
-      }
+      translatedChoice.text = textResult
       
       // キーワードを翻訳
       if (choice.keywords) {
@@ -315,13 +306,10 @@ export class ConfigurationParser {
           const keywordResult = await translationService.translateText(
             keyword,
             fromLang,
-            toLang,
-            '銀行ATMのキーワード'
+            toLang
           )
           
-          if ('translatedText' in keywordResult) {
-            translatedKeywords.push(keywordResult.translatedText)
-          }
+          translatedKeywords.push(keywordResult)
         }
         translatedChoice.keywords = translatedKeywords
       }

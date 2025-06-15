@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Language, OptimizedChatFlow, ChatNode } from '@/types'
 import { createVoiceFileGenerator, VoiceGenerationResult } from '@/services/voiceFileGenerator'
 import FlowVisualization from './FlowVisualization'
@@ -30,7 +30,6 @@ export default function ContentPreview({
   flowData, 
   language,
   selectedSpeaker = 3,
-  onSpeakerChange,
   onContentUpdate 
 }: ContentPreviewProps) {
   const [previewState, setPreviewState] = useState<PreviewState>({
@@ -51,7 +50,7 @@ export default function ContentPreview({
 
   const getNodesByType = (type: string): Array<[string, ChatNode]> => {
     const nodes = getCurrentNodes()
-    return Object.entries(nodes).filter(([_, node]) => node.type === type)
+    return Object.entries(nodes).filter(([, node]) => node.type === type)
   }
 
   const playAudio = async (nodeId: string, node: ChatNode) => {
@@ -136,7 +135,7 @@ export default function ContentPreview({
     try {
       // Create custom voice generator with selected speaker
       const { createVoicevoxService } = await import('@/services/voicevoxService')
-      const voicevoxService = createVoicevoxService(selectedSpeaker)
+      const voicevoxService = createVoicevoxService()
       
       const results: VoiceGenerationResult[] = []
       const nodeEntries = Object.entries(nodes)
@@ -414,7 +413,7 @@ export default function ContentPreview({
             flowData={flowData}
             language={language}
             onNodeSelect={(nodeId) => setPreviewState(prev => ({ ...prev, selectedNode: nodeId }))}
-            selectedNode={previewState.selectedNode}
+            selectedNode={previewState.selectedNode || undefined}
           />
         </div>
       )}

@@ -7,7 +7,7 @@ interface VoiceInputProps {
   language: Language
   isLarge?: boolean
   isHighContrast?: boolean
-  onVoiceResult: (text: string) => void
+  onVoiceResult?: (text: string) => void
   onVoiceStart?: () => void
   onVoiceEnd?: () => void
   isRecording: boolean
@@ -21,7 +21,6 @@ export default function VoiceInput({
   language,
   isLarge = false,
   isHighContrast = false,
-  onVoiceResult: _onVoiceResult,
   onVoiceStart,
   onVoiceEnd,
   isRecording,

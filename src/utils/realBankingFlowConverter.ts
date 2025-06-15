@@ -696,5 +696,5 @@ function getFallbackBankingFlow(): OptimizedChatFlow {
     }
   }
   
-  return fallbackFlow
+  return fallbackFlow as OptimizedChatFlow
 }

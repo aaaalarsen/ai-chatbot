@@ -13,7 +13,7 @@ export async function convertBankingConfigurationToFlow(
   if (enableTranslation) {
     const apiKey = ApiKeyManager.getApiKey()
     if (apiKey) {
-      translationService = new TranslationService(apiKey)
+      translationService = new TranslationService()
     }
   }
   

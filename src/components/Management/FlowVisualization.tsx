@@ -83,7 +83,7 @@ export default function FlowVisualization({
 
       // 選択肢からの接続
       if (node.choices) {
-        node.choices.forEach((choice, index) => {
+        node.choices.forEach((choice) => {
           connections.push({
             from: currentId,
             to: choice.next,
@@ -123,7 +123,6 @@ export default function FlowVisualization({
     // 位置を計算
     const nodePositions = new Map<string, NodePosition>()
     const nodeWidth = 180
-    const nodeHeight = 100
     const levelHeight = 150
     const nodeSpacing = 200
 

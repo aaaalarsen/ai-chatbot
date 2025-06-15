@@ -39,12 +39,12 @@ export default function ApiKeySettings({
     setErrorMessage('')
 
     try {
-      const translationService = new TranslationService(apiKey)
+      const translationService = new TranslationService()
       const isValid = await translationService.testApiKey()
       
       if (isValid) {
         setTestResult('success')
-        ApiKeyManager.saveApiKey(apiKey)
+        ApiKeyManager.saveApiKey()
         onApiKeySet(apiKey)
       } else {
         setTestResult('error')
