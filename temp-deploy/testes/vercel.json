@@ -1,0 +1,11 @@
+{
+  "name": "testes",
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": ".next",
+  "env": {
+    "ENABLE_MANAGEMENT": "false",
+    "NODE_ENV": "production"
+  }
+}
